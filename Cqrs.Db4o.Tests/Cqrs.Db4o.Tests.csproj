@@ -58,15 +58,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="getting_all_events.cs" />
-    <Compile Include="MockEvent.cs" />
-    <Compile Include="MockEventProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="saving_new_event_provider.cs" />
+    <Compile Include="saving_new_aggregate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cqrs.Db4o\Cqrs.Db4o.csproj">
       <Project>{999776D3-F9AB-4A81-88F0-6BCCD350511B}</Project>
       <Name>Cqrs.Db4o</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cqrs.Framework.Tests\Cqrs.Framework.Tests.csproj">
+      <Project>{93861088-8565-4D72-840D-DD332107FA8D}</Project>
+      <Name>Cqrs.Framework.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cqrs.Framework\Cqrs.Framework.csproj">
       <Project>{B5FA3841-49B7-431A-BCFC-3182DCA3E12C}</Project>

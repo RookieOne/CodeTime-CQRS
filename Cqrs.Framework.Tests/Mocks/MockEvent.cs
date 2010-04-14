@@ -1,7 +1,7 @@
 ﻿using System;
 using Cqrs.Framework.Events;
 
-namespace Cqrs.Db4o.Tests
+namespace Cqrs.Framework.Tests.Mocks
 {
     public class MockEvent : IDomainEvent
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cqrs.Framework.Aggregates;
 using Cqrs.Framework.Events;
 using Db4objects.Db4o;
 using Db4objects.Db4o.Linq;
@@ -19,44 +20,43 @@ namespace Cqrs.Db4o
         public IEnumerable<IDomainEvent> GetAllEvents(Guid eventProviderId)
         {
             return (from Db4oEvent e in _database
-                   where e.EventProviderId == eventProviderId
-                   orderby e.Version
-                   select e.Event).ToList();
+                    where e.AggregateId == eventProviderId
+                    orderby e.Version
+                    select e.Event).ToList();
         }
 
-        public void Save(IDomainEventProvider eventProvider)
+        public void Save(IAggregate aggregate)
         {
-            Db4oEventProvider provider = (from Db4oEventProvider p in _database
-                                          where p.Id == eventProvider.Id
-                                          select p).FirstOrDefault();
+            Db4oAggregate dbAggregate = (from Db4oAggregate a in _database
+                                         where a.Id == aggregate.Id
+                                         select a).FirstOrDefault();
 
             int version = 0;
-            if (provider == null)
+            if (dbAggregate == null)
             {
-                provider = new Db4oEventProvider
-                               {Id = eventProvider.Id, Type = eventProvider.GetType().Name, Version = 0};
+                dbAggregate = new Db4oAggregate { Id = aggregate.Id, Type = aggregate.GetType().Name, Version = 0 };
             }
             else
             {
-                version = provider.Version;
+                version = dbAggregate.Version;
             }
 
-            IEnumerable<IDomainEvent> events = eventProvider.GetChanges();
+            IEnumerable<IDomainEvent> events = aggregate.GetChanges();
 
             foreach (IDomainEvent e in events)
             {
                 version++;
                 var db4oEvent = new Db4oEvent
                                     {
-                                        EventProviderId = eventProvider.Id,
+                                        AggregateId = dbAggregate.Id,
                                         Event = e,
                                         Version = version
                                     };
                 _database.Store(db4oEvent);
             }
 
-            provider.Version = version;
-            _database.Store(provider);
+            dbAggregate.Version = version;
+            _database.Store(dbAggregate);
         }
 
         public void Dispose()

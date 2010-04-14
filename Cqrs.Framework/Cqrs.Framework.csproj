@@ -52,13 +52,15 @@
     <Compile Include="Commands\ICommandBus.cs" />
     <Compile Include="Commands\ICommandHandler.cs" />
     <Compile Include="Commands\IDomainCommand.cs" />
+    <Compile Include="Events\AggregateNotFoundException.cs" />
     <Compile Include="Events\DomainEvent.cs" />
+    <Compile Include="Events\DomainRepository.cs" />
     <Compile Include="Events\IDomainEvent.cs" />
     <Compile Include="Events\IDomainRepository.cs" />
     <Compile Include="Events\IEventHandler.cs" />
-    <Compile Include="Events\IDomainEventProvider.cs" />
     <Compile Include="Events\IEventStore.cs" />
     <Compile Include="Events\IUnitOfWork.cs" />
+    <Compile Include="Events\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

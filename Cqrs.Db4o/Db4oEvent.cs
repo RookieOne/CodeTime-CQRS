@@ -5,7 +5,7 @@ namespace Cqrs.Db4o
 {
     public class Db4oEvent
     {
-        public Guid EventProviderId { get; set; }
+        public Guid AggregateId { get; set; }
         public IDomainEvent Event { get; set; }
         public int Version { get; set; }
     }

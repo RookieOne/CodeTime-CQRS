@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{999776D3-F9AB-4A81-88F0-6BCCD350511B}</ProjectGuid>
+    <ProjectGuid>{93861088-8565-4D72-840D-DD332107FA8D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cqrs.Db4o</RootNamespace>
-    <AssemblyName>Cqrs.Db4o</AssemblyName>
+    <RootNamespace>Cqrs.Framework.Tests</RootNamespace>
+    <AssemblyName>Cqrs.Framework.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,13 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Db4objects.Db4o, Version=7.12.132.14217, Culture=neutral, PublicKeyToken=6199cd4f203aa8eb, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=2.5.3.9345, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dlls\Db4objects.Db4o.dll</HintPath>
+      <HintPath>..\dlls\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Db4objects.Db4o.Linq, Version=7.12.132.14217, Culture=neutral, PublicKeyToken=6199cd4f203aa8eb, processorArchitecture=MSIL">
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dlls\Db4objects.Db4o.Linq.dll</HintPath>
+      <HintPath>..\dlls\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -53,15 +53,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Db4oEvent.cs" />
-    <Compile Include="Db4oAggregate.cs" />
-    <Compile Include="Db4oEventStore.cs" />
+    <Compile Include="Events\UnitOfWorkTests\commit.cs" />
+    <Compile Include="Events\UnitOfWorkTests\get_by_id.cs" />
+    <Compile Include="Events\UnitOfWorkTests\register.cs" />
+    <Compile Include="Mocks\MockAggregate.cs" />
+    <Compile Include="Mocks\MockEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cqrs.Framework\Cqrs.Framework.csproj">
       <Project>{B5FA3841-49B7-431A-BCFC-3182DCA3E12C}</Project>
       <Name>Cqrs.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
+      <Project>{BEF3FB4B-F4F0-472A-B8F2-D64472DA8230}</Project>
+      <Name>TestUtilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

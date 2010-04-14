@@ -1,8 +1,12 @@
-﻿namespace Cqrs.Framework.Events
+﻿using System;
+using Cqrs.Framework.Aggregates;
+
+namespace Cqrs.Framework.Events
 {
     public interface IUnitOfWork
     {
-        void Register(IDomainEventProvider provider);
+        T GetById<T>(Guid id) where T : IAggregate, new();
+        void Register(IAggregate aggregate);
         void Commit();
     }
 }

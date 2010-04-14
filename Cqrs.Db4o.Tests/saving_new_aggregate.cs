@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Cqrs.Framework.Tests.Mocks;
 using Db4objects.Db4o;
 using Db4objects.Db4o.Linq;
 using NUnit.Framework;
@@ -7,31 +8,31 @@ using TestUtilities;
 namespace Cqrs.Db4o.Tests
 {
     [TestFixture]
-    public class saving_new_event_provider
+    public class saving_new_aggregate
     {
-        Db4oEventProvider _providerInDb;
+        Db4oAggregate _aggregateInDb;
         Db4oEvent _eventInDb;
 
         [TestFixtureSetUp]
         public void SetUp()
         {
-            MockEventProvider provider;
+            MockAggregate aggregate;
 
             using (var store = new Db4oEventStore("db4oTest"))
             {
-                provider = new MockEventProvider();
-                provider.Add(new MockEvent());
+                aggregate = new MockAggregate();
+                aggregate.Add(new MockEvent());
 
-                store.Save(provider);
+                store.Save(aggregate);
             }
 
             using (IEmbeddedObjectContainer db = Db4oEmbedded.OpenFile(Db4oEmbedded.NewConfiguration(), "db4oTest"))
             {
-                _providerInDb = (from Db4oEventProvider p in db
-                                 where p.Id == provider.Id
+                _aggregateInDb = (from Db4oAggregate p in db
+                                 where p.Id == aggregate.Id
                                  select p).FirstOrDefault();
                 _eventInDb = (from Db4oEvent e in db
-                              where e.EventProviderId == provider.Id
+                              where e.AggregateId == aggregate.Id
                               select e).FirstOrDefault();
             }
         }
@@ -39,13 +40,13 @@ namespace Cqrs.Db4o.Tests
         [Test]
         public void should_insert_event_provider()
         {
-            _providerInDb.ShouldNotBe(null);
+            _aggregateInDb.ShouldNotBe(null);
         }
 
         [Test]
         public void should_set_version_number()
         {
-            _providerInDb.Version.ShouldBe(1);
+            _aggregateInDb.Version.ShouldBe(1);
         }
 
         [Test]

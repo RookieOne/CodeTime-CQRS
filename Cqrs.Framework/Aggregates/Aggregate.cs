@@ -22,12 +22,28 @@ namespace Cqrs.Framework.Aggregates
             return _appliedEvents.ToList();
         }
 
+        public void LoadFromHistory(IEnumerable<IDomainEvent> domainEvents)
+        {
+            if (domainEvents.Count() == 0)
+                return;
+
+            foreach(var domainEvent in domainEvents)
+            {
+                ApplyDomainEvent(domainEvent);
+            }
+        }
+
+        void ApplyDomainEvent<T>(T domainEvent) where T : IDomainEvent
+        {
+            var handler = this as IEventHandler<T>;
+            handler.On(domainEvent);
+        }
+
         public void Apply<T>(T domainEvent) where T : IDomainEvent
         {
             _appliedEvents.Add(domainEvent);
 
-            var handler = this as IEventHandler<T>;
-            handler.On(domainEvent);
+            ApplyDomainEvent(domainEvent);
         }
     }
 }

@@ -5,8 +5,8 @@ namespace Cqrs.Framework.Events
 {
     public interface IDomainRepository
     {
-        TAggregate GetById<TAggregate>(Guid id) where TAggregate : IAggregate;
+        T GetById<T>(Guid id) where T : IAggregate, new();
 
-        void Add<TAggregate>(TAggregate aggregateRoot) where TAggregate : IAggregate;
+        void Add<T>(T aggregate) where T : IAggregate, new();
     }
 }
